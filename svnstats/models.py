@@ -29,12 +29,14 @@ class Project(models.Model):
         update project statistics
         '''
         svnclient = SVNLogClient(self.repository, BINARYFILEXT, username=self.username, password=self.password)
+        #import pdb; pdb.set_trace()
         try:
             laststoredrev = self.getLastStoredRev()
             rootUrl = svnclient.getRootUrl()
             (startrevno, endrevno) = svnclient.findStartEndRev(None, None)
             startrevno = max(startrevno, laststoredrev+1)
-            self.ConvertRevs(svnclient, startrevno, endrevno)
+            if startrevno <= endrevno:
+                self.ConvertRevs(svnclient, startrevno, endrevno)
         except Exception as e:
             print 'Exception updating project'
             print e
@@ -47,15 +49,56 @@ class Project(models.Model):
         revcount = 0
         lastrevno = 0
 
-        for revlog in svnloglist:
-            print revlog.message
+        #import pdb; pdb.set_trace()
+        for revlog in svnloglist: #iterate the log and insert into database
+            addedfiles, changedfiles, deletedfiles = revlog.changedFileCount()
+            if revlog.isvalid():
+                svnlog = SVNLog(project = self, 
+                    revno = revlog.revno, 
+                    commitdate = revlog.date,
+                    author = revlog.author,
+                    msg = revlog.message,
+                    addedfiles = addedfiles,
+                    changedfiles = changedfiles,
+                    deletedfiles = deletedfiles)
+                svnlog.save()
+                print 'saved revision: %d ' % revlog.revno
+                #next, digg out details
+                for change in revlog.getDiffLineCount(True):
+                    filename = change.filepath_unicode()
+                    changetype = change.change_type()
+                    linesadded = change.lc_added()
+                    linesdeleted = change.lc_deleted()
+                    copyfrompath, copyfromrev = change.copyfrom()
+                    entry_type = 'R'
+                    pathtype = change.pathtype()
+                    path, created = SVNPath.objects.get_or_create(path=filename)
 
+                    detail = SVNLogDetail(svnlog = svnlog,
+                                changedpath = path,
+                                pathtype = pathtype,
+                                changetype = changetype,
+                                linesadded = linesadded,
+                                linesdeleted = linesdeleted,
+                                entrytype = entry_type)
+                    #recored copyfrom information if exists
+                    if copyfrompath is not None:
+                        copyfrom, created = SVNPath.objects.get_or_create(path=copyfrompath)
+                        detail.copyfrompath = copyfrom.id
+                        detail.copyfromrev = copyfromrev
+
+                    detail.save()
+
+                                
+    
     def getLastStoredRev(self):
         '''
         return the max revision number for the project
         '''
         try:
             revno = SVNLog.objects.filter(project=self).aggregate(Max('revno'))['revno__max']
+            if revno is None:
+                revno = 0
         except:
             revno = 0
 
