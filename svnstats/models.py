@@ -24,6 +24,9 @@ class Project(models.Model):
     excludes = models.CharField(_('excluded paths'), max_length=500, null=True)
     updatedate = models.DateTimeField(_('update time'))
 
+    def __unicode__(self):
+        return self.name
+
     def update(self):
         '''
         update project statistics
