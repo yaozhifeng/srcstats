@@ -1,2 +1,8 @@
-SRCSTATS - source code statistics
+SRCSTATS - source code statistics for MULTIPLE repositories
+
+Ok, being a programmer for so many years, now you are a leader or a boss managing tens of other programmers. You really eager to know if everybody is really working instead of pretending to be working.
+
+Counting source code is not like a best practice to do. But since writting code is what programmers have been doing everyday, it does make sense to count how many lines have been generated over the days. So let's count, and count it right.
+
+
 
