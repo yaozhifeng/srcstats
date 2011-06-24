@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import Max, Min, Count, Avg
 from django.utils.translation import ugettext_lazy as _
+import datetime
+
 from svnclient.svnlogclient import SVNLogClient
 from svnclient.svnlogiter import SVNRevLogIter
 
@@ -21,8 +23,9 @@ class Project(models.Model):
     repository = models.CharField(_('repository'), max_length=500)
     username = models.CharField(_('username'), max_length=50)
     password = models.CharField(_('password'), max_length=50)
-    excludes = models.CharField(_('excluded paths'), max_length=500, null=True)
+    excludes = models.CharField(_('excluded paths'), max_length=500, null=True, blank=True)
     updatedate = models.DateTimeField(_('update time'))
+    updating = models.BooleanField(_('updating'), default=False)
 
     def __unicode__(self):
         return self.name
@@ -38,8 +41,16 @@ class Project(models.Model):
             rootUrl = svnclient.getRootUrl()
             (startrevno, endrevno) = svnclient.findStartEndRev(None, None)
             startrevno = max(startrevno, laststoredrev+1)
+            
+            self.updating = True
+            self.updatedate = datetime.datetime.now()
+            self.save()
             if startrevno <= endrevno:
                 self.ConvertRevs(svnclient, startrevno, endrevno)
+            self.updatedate = datetime.datetime.now()
+            self.updating = False
+            self.save()
+            
         except Exception as e:
             print 'Exception updating project'
             print e
