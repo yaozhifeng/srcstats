@@ -2,20 +2,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us" >
 <head>
+<link type="text/css" href="{{ STATIC_URL }}css/main.css" rel="stylesheet">
 <title>Souce code Statistics</title>
 </head>
 
 <body>
-    <div class="header">
-        <div class="title">Source code statistics</div>
-        <hr>
+    <div id="wrapper">
+    <div id="header" class="box">
+        <h1>Sourcecode Insight</h1>
     </div>
-    <div class="content">
+    <div id="headmenu" class="box">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/">Projects</a></li>
+        </ul>
+    </div>
+    <div id="container" class="box">
         {% block content %}content area {% endblock %}
     </div>
-    <div class="footer">
-        <hr>
-        <div class="copyright">Powered by SRCSTATS </div>
+    <div id="footer" class="box">
+        <p>Powered by <a href="https://github.com/yaozhifeng/srcstats" target="_blank">SRCSTATS</a> </p>
+    </div>
     </div>
 </body>
 

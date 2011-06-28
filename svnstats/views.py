@@ -6,8 +6,10 @@ from django.shortcuts import render_to_response, redirect
 from models import Project, SVNLog, SVNLogDetail
 
 def home(request):
+    projects = Project.objects.all()
     return render_to_response('home.html',
                     {
-                        'name': 'dummy',
+                        'projects': projects,
                     },
+                    context_instance = RequestContext(request)
                     )
