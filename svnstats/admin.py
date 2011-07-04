@@ -1,4 +1,4 @@
-from models import Project, SVNLog
+from models import Project, SVNLog, SVNAuthor
 from django.contrib import admin
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -13,5 +13,10 @@ class ProjectAdmin(admin.ModelAdmin):
 class SVNLogAdmin(admin.ModelAdmin):
     list_display = ['revno', 'author', 'commitdate']
 
+class SVNAuthorAdmin(admin.ModelAdmin):
+    list_display = ['author', 'display']
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(SVNLog, SVNLogAdmin)
+admin.site.register(SVNAuthor, SVNAuthorAdmin)
+

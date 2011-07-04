@@ -1,7 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for project in projects  %}
-        <p>{{project.name}}</p>
-    {% endfor %}
+<div id="column-main">
+    <h2 class="caption">Projects overview</h2>
+    <div class="part">
+        <dl class="list">
+            <dt class="header">Name</dt>
+            <dd class="header">Contributors</dd>
+            {% for project in projects  %}
+                <dt>{{project.name}}</dt>
+                <dd>{{project.author_count}}</dd>
+            {% endfor %}
+        </dl>
+    </div>
+    <h2 class="caption">Recent commits</h2>
+    <div class="part">
+         <dl class="list">
+            {% for commit in commits  %}
+                <dt>{{commit.author}}</dt>
+                <dd>[{{commit.project__name}}] {{commit.msg|truncatewords:16}}</dd>
+            {% endfor %}
+    </div>
+</div>
+<div id="column-right">
+    <h2 class="caption">Top Coders</h2>
+    <div class="part">
+        <dl class="list">
+             {% for coder in coders  %}
+                <dt>{{coder.author}}</dt>
+                <dd>{{coder.linesadded}}</dd>
+            {% endfor %}
+        </dl>
+    </div>
+</div>
 {% endblock %}

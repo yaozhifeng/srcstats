@@ -142,3 +142,10 @@ class SVNLogDetail(models.Model):
     linesdeleted = models.IntegerField(_('lines deleted'))
     entrytype = models.CharField(_('entry type'), max_length=1)
 
+class SVNAuthor(models.Model):
+    author = models.CharField(_('author'), max_length=50, unique=True)
+    display = models.CharField(_('display'), max_length=20, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.author
+
