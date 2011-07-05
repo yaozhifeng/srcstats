@@ -83,6 +83,7 @@ div.part {
     border: 1px solid #DDDDDD;
     padding-left: 5px;
     padding-right: 5px;
+    padding-bottom: 5px;
     margin-bottom: 15px;
 }
 #footer {
@@ -117,14 +118,42 @@ dl.list dt {
     clear: both;
     float: left;
     width: 40%;
+    margin: 0 0 4px;
+    padding: 4px;
 }
 dl.list dd {
     float: left;
-    width: 60%
+    width: 50%;
+    margin: 0 0 4px;
+    padding: 4px;
 }
 dd.header, dt.header {
     font-weight: bold;
     border-bottom: 1px dashed #DDDDDD;
+    margin: 0 0 4px;
+}
+
+div.bar {
+    width: 50px;
+    background-color: #DDDDDD;
+    display: block;
+    float: left;
+    height: 16px;
+    margin: 0 4px;
+}
+
+div.gauge {
+    background-color: #00FF00;
+    float: left;
+    height: 16px;
+}
+
+tr.even {
+    height: 28px;
+}
+tr.odd {
+    height: 28px;
+    background-color: #DDDDDD;
 }
 
 ul {
@@ -160,8 +189,7 @@ table {
 }
 td {
     font-size:12px;
-    padding:10px;
-    text-align:right;
+    padding:2px;
     vertical-align:middle;
 }
 td + td {

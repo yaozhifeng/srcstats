@@ -23,12 +23,24 @@
     </div>
 </div>
 <div id="column-right">
-    <h2 class="caption">Top Coders</h2>
+    <h2 class="caption">Coders of the Week</h2>
     <div class="part">
         <dl class="list">
-             {% for coder in coders  %}
-                <dt>{{coder.author}}</dt>
-                <dd>{{coder.linesadded}}</dd>
+            {% for coder in coders_week  %}
+                <dt>{% firstof coder.display coder.author %}</dt>
+                <dd>{{coder.linesadded}} (-{{coder.linesdeleted}})</dd>
+            {% endfor %}
+        </dl>
+    </div>
+    <h2 class="caption">Coders of the Month</h2>
+    <div class="part">
+        <dl class="list">
+            {% for coder in coders_month  %}
+                <dt>{% firstof coder.display coder.author %}</dt>
+                <dd>
+                    <div class="bar"><div class="gauge" style="width:50%"></div></div>
+                    <span>{{coder.linesadded}} (-{{coder.linesdeleted}})</span>
+                </dd>
             {% endfor %}
         </dl>
     </div>
