@@ -117,13 +117,13 @@ dl.list {
 dl.list dt {
     clear: both;
     float: left;
-    width: 40%;
+    width: 20%;
     margin: 0 0 4px;
     padding: 4px;
 }
 dl.list dd {
     float: left;
-    width: 50%;
+    width: 70%;
     margin: 0 0 4px;
     padding: 4px;
 }
@@ -134,18 +134,21 @@ dd.header, dt.header {
 }
 
 div.bar {
-    width: 50px;
-    background-color: #DDDDDD;
+    width: 80px;
+    /*background-color: #DDDDDD;*/
     display: block;
     float: left;
-    height: 16px;
+    height: 12px;
     margin: 0 4px;
 }
 
 div.gauge {
+     -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
     background-color: #00FF00;
     float: left;
-    height: 16px;
+    height: 12px;
 }
 
 tr.even {

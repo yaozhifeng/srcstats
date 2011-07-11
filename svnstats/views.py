@@ -18,16 +18,22 @@ def home(request):
     lastmonthday = today - datetime.timedelta(days=30)
     print 'stats week range: %s - %s' % (lastweekday.isoformat(), today.isoformat())
     print 'stats month range: %s - %s' % (lastmonthday.isoformat(), today.isoformat())
-    
+   
     coders = AuthorContrib.objects.filter(commitdate__range=(lastmonthday, today))
     coders = coders.values('author', 'display').annotate(linesadded=Sum('linesadded'))
     coders = coders.annotate(linesdeleted=Sum('linesdeleted'))
     coders = coders.order_by('-linesadded','-linesdeleted')[:10]
 
+    for coder in coders:
+        coder['percent'] = coder['linesadded']*100/coders[0]['linesadded'] 
+
     coders_w = AuthorContrib.objects.filter(commitdate__range=(lastweekday, today))
     coders_w = coders_w.values('author', 'display').annotate(linesadded=Sum('linesadded'))
     coders_w = coders_w.annotate(linesdeleted=Sum('linesdeleted'))
     coders_w = coders_w.order_by('-linesadded', '-linesdeleted')[:10]
+
+    for coder in coders_w:
+        coder['percent'] = coder['linesadded']*100/coders_w[0]['linesadded'] 
 
     commits = SVNLog.objects.values('author', 'msg', 'commitdate', 'project__name').order_by('-commitdate')[:6]
     return render_to_response('home.html',
